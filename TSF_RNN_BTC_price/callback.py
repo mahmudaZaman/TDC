@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-checkpoint_path = "tweet_weights/checkpoint.ckpt"
+checkpoint_path = "weights/checkpoint.ckpt"
 
 def create_callbacks():
     checkpoint = tf.keras.callbacks.ModelCheckpoint(
