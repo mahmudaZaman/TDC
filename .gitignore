@@ -162,3 +162,5 @@ out/
 dataset/
 .ckpt/
 *checkpoint*
+tensorflow_datasets/
+train/
