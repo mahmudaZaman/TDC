@@ -19,6 +19,10 @@ def calculate_results(y_true, y_pred):
 # The data has already been sorted into training and test sets for us
 (train_data, train_labels), (test_data, test_labels) = fashion_mnist.load_data()
 
+# another way to load data
+# fmnist = tf.keras.datasets.fashion_mnist
+# (train_data, train_labels), (test_data, test_labels) = fmnist.load_data()
+
 print(train_data[0], train_labels[:5])
 print("data type: ",type(train_data), type(train_labels))
 print("shapes: ",train_data.shape, train_labels.shape)
@@ -43,6 +47,8 @@ callback = tf.keras.callbacks.EarlyStopping(min_delta=0.001,
 model = tf.keras.Sequential([
   tf.keras.layers.Conv2D(32, (3,3), input_shape=(28,28,1), activation='relu'),
   tf.keras.layers.MaxPool2D(2,2),
+  # tf.keras.layers.Conv2D(32, (3,3), input_shape=(28,28,1), activation='relu'),
+  # tf.keras.layers.MaxPool2D(2,2),
   tf.keras.layers.Flatten(),
   tf.keras.layers.Dense(256, activation="relu"),
   tf.keras.layers.Dense(128, activation="relu"),
@@ -58,10 +64,10 @@ callbacks = create_callbacks()
 
 # Fit the model
 history = model.fit(train_data,
-                               train_labels,
-                               epochs=500,
-                               validation_data=(test_data, test_labels),
-                               callbacks=callbacks,verbose=1)
+                    train_labels,
+                    epochs=500,
+                    validation_data=(test_data, test_labels),
+                    callbacks=callbacks,verbose=1)
 
 # Evaluate  model
 model.evaluate(test_data, test_labels)
