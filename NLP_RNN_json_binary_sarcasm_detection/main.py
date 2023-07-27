@@ -83,15 +83,29 @@ x = tf.keras.layers.GlobalAveragePooling1D()(x)
 outputs = tf.keras.layers.Dense(1, activation="sigmoid")(x)
 conv_model = tf.keras.Model(inputs, outputs)
 
-conv_model.compile(loss="binary_crossentropy",
+
+# Define the LSTM-based model
+inputs = tf.keras.layers.Input(shape=(1,), dtype=tf.string)
+x = text_vectorizer(inputs)
+x = token_embed(x)
+x = tf.keras.layers.LSTM(64, return_sequences=True)(x)
+x = tf.keras.layers.GlobalAveragePooling1D()(x)
+outputs = tf.keras.layers.Dense(1, activation="sigmoid")(x)
+lstm_model = tf.keras.Model(inputs, outputs)
+
+
+lstm_model.compile(loss="binary_crossentropy",
                 optimizer = tf.keras.optimizers.Adam(),
                 metrics = ["accuracy"])
 
-conv_model_history =  conv_model.fit(train_dataset,
+history =  lstm_model.fit(train_dataset,
                                epochs=3,
                                verbose=1,
                                validation_data=test_dataset)
 
-conv_model.evaluate(test_dataset)
-conv_model_pred_probs = conv_model.predict(test_dataset)
-print(conv_model_pred_probs[:20])
+lstm_model.evaluate(test_dataset)
+lstm_model_pred_probs = lstm_model.predict(test_dataset)
+print(lstm_model_pred_probs[:20])
+
+# conv_model_pred_probs = conv_model.predict(test_dataset)
+# print(conv_model_pred_probs[:20])
